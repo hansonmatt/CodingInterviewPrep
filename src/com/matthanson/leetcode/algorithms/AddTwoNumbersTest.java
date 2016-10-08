@@ -13,17 +13,36 @@ import static org.junit.Assert.*;
  */
 public class AddTwoNumbersTest {
     @Test
+    public void testIntFromList() {
+        AddTwoNumbers addTwoNumbers = new AddTwoNumbers();
+        assertEquals(BigInteger.ZERO, addTwoNumbers.intFromList(null));
+        assertEquals(BigInteger.ZERO, addTwoNumbers.intFromList(new AddTwoNumbers.ListNode(0)));
+        assertEquals(BigInteger.ONE, addTwoNumbers.intFromList(new AddTwoNumbers.ListNode(1)));
+        AddTwoNumbers.ListNode node = new AddTwoNumbers.ListNode(6);
+        node.next = new AddTwoNumbers.ListNode(3);
+        assertEquals(36, addTwoNumbers.intFromList(node).intValue());
+
+        AddTwoNumbers.ListNode n2 = new AddTwoNumbers.ListNode(1); // [1,9,9,9,9,9,9,9,9,9] -> 9999999991
+        AddTwoNumbers.ListNode curr = n2;
+        for (int n = 0; n < 9; ++n) {
+            curr.next = new AddTwoNumbers.ListNode(9);
+            curr = curr.next;
+        }
+
+        assertEquals(BigInteger.valueOf(9999999991L), addTwoNumbers.intFromList(n2));
+    }
+
+    @Test
     public void addTwoNumbers() throws Exception {
         AddTwoNumbers addTwoNumbers = new AddTwoNumbers();
-
-        AddTwoNumbers.ListNode n1 = new AddTwoNumbers.ListNode(5);
-        AddTwoNumbers.ListNode n2 = new AddTwoNumbers.ListNode(2);
 
         AddTwoNumbers.ListNode n3 = addTwoNumbers.addTwoNumbers(null, null);
         assertNotNull(n3);
         assertEquals(0, n3.val);
         assertNull(n3.next);
 
+        AddTwoNumbers.ListNode n1 = new AddTwoNumbers.ListNode(5);
+        AddTwoNumbers.ListNode n2 = new AddTwoNumbers.ListNode(2);
         n3 = addTwoNumbers.addTwoNumbers(n1, n2);
         assertNotNull(n3);
         assertEquals(7, n3.val);
@@ -45,14 +64,24 @@ public class AddTwoNumbersTest {
     }
 
     @Test
-    public void testIntFromList() {
+    public void addTwoNumbersLarge() throws Exception {
         AddTwoNumbers addTwoNumbers = new AddTwoNumbers();
-        assertEquals(BigInteger.ZERO, addTwoNumbers.intFromList(null));
-        assertEquals(BigInteger.ZERO, addTwoNumbers.intFromList(new AddTwoNumbers.ListNode(0)));
-        assertEquals(BigInteger.ONE, addTwoNumbers.intFromList(new AddTwoNumbers.ListNode(1)));
-        AddTwoNumbers.ListNode node = new AddTwoNumbers.ListNode(6);
-        node.next = new AddTwoNumbers.ListNode(3);
-        assertEquals(36, addTwoNumbers.intFromList(node).intValue());
+
+        AddTwoNumbers.ListNode n1 = new AddTwoNumbers.ListNode(9); // [9]
+        AddTwoNumbers.ListNode n2 = new AddTwoNumbers.ListNode(1); // [1,9,9,9,9,9,9,9,9,9] -> 9999999991
+        AddTwoNumbers.ListNode curr = n2;
+        for (int n = 0; n < 9; ++n) {
+            curr.next = new AddTwoNumbers.ListNode(9);
+            curr = curr.next;
+        }
+
+        AddTwoNumbers.ListNode n3 = addTwoNumbers.addTwoNumbers(n1, n2); // 9 + 9999999991 = 10000000000
+        curr = n3;
+        for (int n = 0; n < 10; ++n) {
+            assertEquals(0, curr.val);
+            curr = curr.next;
+        }
+        assertEquals(1, curr.val);
     }
 
 }

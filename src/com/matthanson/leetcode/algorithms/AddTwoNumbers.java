@@ -48,8 +48,7 @@ public class AddTwoNumbers {
         ListNode node = head;
         int n = 0;
         while (node != null) {
-            int multiplier = (int) Math.pow(10, n);
-            bi = bi.add(BigInteger.valueOf(node.val * multiplier));
+            bi = bi.add(BigInteger.TEN.pow(n).multiply(BigInteger.valueOf(node.val)));
             node = node.next;
             n++;
         }
