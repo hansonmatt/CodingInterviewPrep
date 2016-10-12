@@ -1,10 +1,8 @@
 package com.matthanson.leetcode.algorithms;
 
-import com.matthanson.datastructures.bst.BinarySearchTree;
 import org.junit.Test;
 
 import java.math.BigInteger;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
