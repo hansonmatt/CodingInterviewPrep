@@ -1,6 +1,9 @@
 package com.matthanson.leetcode.algorithms;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Stack;
+import java.util.Vector;
 
 /**
  * Created by matthans on 10/13/16.
@@ -26,6 +29,43 @@ public class LowestCommonAncestorBinaryTree {
     }
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || p == null || q == null) {
+            return null;
+        }
+
+        Vector<LinkedList<TreeNode>> pPaths = treeNodeSearchPaths(root, p.val);
+        Vector<LinkedList<TreeNode>> qPaths = treeNodeSearchPaths(root, q.val);
+
+        TreeNode lowestAncestor = null;
+        int maxDepth = 0;
+        for (LinkedList<TreeNode> pPath : pPaths) {
+            for (LinkedList<TreeNode> qPath : qPaths) {
+                Iterator<TreeNode> pIterator = pPath.descendingIterator();
+                Iterator<TreeNode> qIterator = qPath.descendingIterator();
+                TreeNode ancestor = null;
+                boolean done = false;
+                int currDepth = 0;
+                while (!done && pIterator.hasNext() && qIterator.hasNext()) {
+                    TreeNode next = pIterator.next();
+                    if (next.val == qIterator.next().val) {
+                        ancestor = next;
+                        ++currDepth;
+                    } else {
+                        done = true;
+                    }
+
+                }
+
+                if (currDepth > maxDepth) {
+                    maxDepth = currDepth;
+                    lowestAncestor = ancestor;
+                }
+            }
+        }
+        return lowestAncestor;
+    }
+
+    public TreeNode lowestCommonAncestorNoDuplicates(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || p == null || q == null) {
             return null;
         }
@@ -74,5 +114,32 @@ public class LowestCommonAncestorBinaryTree {
         }
 
         return found;
+    }
+
+    public Vector<LinkedList<TreeNode>> treeNodeSearchPaths(TreeNode curr, int searchVal) {
+        Vector<LinkedList<TreeNode>> toReturn = new Vector<LinkedList<TreeNode>>();
+
+        if (curr == null) {
+            return toReturn;
+        }
+
+
+        Vector<LinkedList<TreeNode>> paths = treeNodeSearchPaths(curr.left, searchVal);
+        for (LinkedList<TreeNode> vector : paths) {
+            vector.add(curr);
+            toReturn.add(vector);
+        }
+        paths = treeNodeSearchPaths(curr.right, searchVal);
+        for (LinkedList<TreeNode> vector : paths) {
+            vector.add(curr);
+            toReturn.add(vector);
+        }
+
+        if (curr.val == searchVal && toReturn.isEmpty()) {
+            LinkedList<TreeNode> path = new LinkedList<>();
+            path.add(curr);
+            toReturn.add(path);
+        }
+        return toReturn;
     }
 }
