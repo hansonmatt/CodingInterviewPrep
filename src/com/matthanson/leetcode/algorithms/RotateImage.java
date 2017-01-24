@@ -12,18 +12,28 @@ public class RotateImage {
             return;
         }
 
-        Stack<int[]> s = new Stack<>();
+        int rOffset = 0;
+        int cOffset = 0;
+        while (rOffset < (matrix.length / 2)) {
 
-        for (int n = 0; n < matrix.length; ++n) {
-            s.push(matrix[n].clone());
-        }
+            int rowBegin = rOffset;
+            int rowEnd = matrix.length - 1 - rOffset;
 
-        for (int n = 0; n < matrix.length; ++n) {
-            int[] row = s.pop();
+            int colBegin = cOffset;
+            int colEnd = matrix.length - 1 - cOffset;
 
-            for (int m = 0; m < matrix.length; ++m) {
-                matrix[m][n] = row[m];
+            int ops = colEnd - colBegin;
+
+            for (int c = 0; c < ops; ++c) {
+                int buffer = matrix[rowBegin][colBegin + c];
+                matrix[rowBegin][colBegin + c] = matrix[rowEnd - c][rowBegin];
+                matrix[rowEnd - c][rowBegin] = matrix[rowEnd][colEnd - c];
+                matrix[rowEnd][colEnd - c] = matrix[rowBegin + c][colEnd];
+                matrix[rowBegin + c][colEnd] = buffer;
             }
+
+            ++rOffset;
+            ++cOffset;
         }
     }
 }
