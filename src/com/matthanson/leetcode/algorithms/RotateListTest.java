@@ -54,7 +54,7 @@ public class RotateListTest {
         head.next = new RotateList.ListNode(2);
         head.next.next = new RotateList.ListNode(3);
         head.next.next.next = new RotateList.ListNode(4);
-        head.next.next.next = new RotateList.ListNode(5);
+        head.next.next.next.next = new RotateList.ListNode(5);
 
         head = rotate.rotateRight(head, 2);
         assertEquals(4, head.val);
@@ -62,6 +62,20 @@ public class RotateListTest {
         assertEquals(1, head.next.next.val);
         assertEquals(2, head.next.next.next.val);
         assertEquals(3, head.next.next.next.next.val);
+        assertNull(head.next.next.next.next.next);
+
+        head = new RotateList.ListNode(1);
+        head.next = new RotateList.ListNode(2);
+        head.next.next = new RotateList.ListNode(3);
+        head.next.next.next = new RotateList.ListNode(4);
+        head.next.next.next.next = new RotateList.ListNode(5);
+
+        head = rotate.rotateRight(head, 8);
+        assertEquals(3, head.val);
+        assertEquals(4, head.next.val);
+        assertEquals(5, head.next.next.val);
+        assertEquals(1, head.next.next.next.val);
+        assertEquals(2, head.next.next.next.next.val);
         assertNull(head.next.next.next.next.next);
     }
 

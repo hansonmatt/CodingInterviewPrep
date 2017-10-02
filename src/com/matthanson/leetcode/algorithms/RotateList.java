@@ -5,25 +5,26 @@ package com.matthanson.leetcode.algorithms;
  */
 public class RotateList {
     static public class ListNode {
-          int val;
-          ListNode next;
-          ListNode(int x) { val = x; }
-      }
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
 
     /**
      * Definition for singly-linked list.
      * public class ListNode {
-     *     int val;
-     *     ListNode next;
-     *     ListNode(int x) { val = x; }
+     * int val;
+     * ListNode next;
+     * ListNode(int x) { val = x; }
      * }
      */
     public ListNode rotateRight(ListNode head, int k) {
         if (head == null) {
             return null;
         }
-
-        //if (head.val == 0) return head;
 
         int len = 0;
 
