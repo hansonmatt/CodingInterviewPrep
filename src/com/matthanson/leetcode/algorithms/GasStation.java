@@ -15,29 +15,28 @@ public class GasStation {
         }
 
         int toReturn = -1;
+
+        int tank = 0;
+        int cumulativeTank = 0;
         for (int n = 0; n < gas.length; ++n) {
+            int net = gas[n] - cost[n];
+            tank += net;
+            cumulativeTank += net;
 
-            boolean[] processed = new boolean[gas.length];
-            for (int m = 0; m < processed.length; ++m) {
-                processed[m] = false;
-            }
-
-            int tank = gas[n];
-            int m = n;
-            while (tank >= cost[m]) {
-                processed[m] = true;
-                tank -= cost[m];
-
-                m = (m + 1) % gas.length;
-
-                tank += gas[m];
-
-                if (processed[m]) {
-                    return n;
+            if (tank >= 0) {
+                if (toReturn == -1) {
+                    toReturn = n;
                 }
+            } else {
+                toReturn = -1;
+                tank = 0;
             }
         }
 
-        return -1;
+        if (cumulativeTank < 0) {
+            toReturn = -1;
+        }
+
+        return toReturn;
     }
 }
