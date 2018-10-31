@@ -1,9 +1,6 @@
 package com.matthanson.leetcode.algorithms;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ThreeSum {
 
@@ -12,12 +9,32 @@ public class ThreeSum {
             return new LinkedList<>();
         }
 
+        Map<Integer, Integer> vals = new HashMap<>(nums.length);
+        for (int n = 0; n < nums.length; ++n) {
+            int count = 1;
+            if (vals.containsKey(nums[n])) {
+                count += vals.get(nums[n]);
+            }
+            vals.put(nums[n], count);
+        }
+
         Set<List<Integer>> s = new HashSet<>();
-        for (int x = 0; x < nums.length - 2; ++x) {
-            for (int y = x + 1; y < nums.length - 1; ++y) {
-                for (int z = y + 1; z < nums.length; ++z) {
-                    if (nums[x] + nums[y] + nums[z] == 0) {
-                        s.add(this.getSortedList(nums[x], nums[y], nums[z]));
+
+        int tmp = 0;
+        for (int x = 0; x < nums.length - 1; ++x) {
+            for (int y = x + 1; y < nums.length; ++y) {
+                tmp = 0 - nums[x] - nums[y];
+                if (vals.containsKey(tmp)) {
+                    boolean add = true;
+                    if (tmp == nums[x] || tmp == nums[y]) {
+                        int count = vals.get(tmp);
+                        if (count == 1) {
+                            add = false;
+                        }
+                    }
+
+                    if (add) {
+                        s.add(this.getSortedList(nums[x], nums[y], tmp));
                     }
                 }
             }
