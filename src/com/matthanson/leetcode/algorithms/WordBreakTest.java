@@ -53,5 +53,7 @@ public class WordBreakTest {
         dictionary.add("aaaaaaaaaa");
         assertTrue(wordBreak.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
                 dictionary));
+        assertFalse(wordBreak.wordBreak("aaaaaaaaaaaaaaaaaaaaab",
+                dictionary));
     }
 }
