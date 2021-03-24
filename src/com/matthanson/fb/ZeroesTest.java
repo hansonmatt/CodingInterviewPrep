@@ -1,6 +1,5 @@
 package com.matthanson.fb;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Test;
 
 import java.util.HashSet;
